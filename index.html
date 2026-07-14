@@ -228,6 +228,33 @@
     transform:scale(1.08);
     filter:grayscale(0) contrast(1.05);
   }
+  .project-gallery {
+    width:100%; height:100%;
+    display:grid;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    grid-template-rows:repeat(2, minmax(0, 1fr));
+    gap:.5rem;
+    padding:.75rem;
+    background:
+      linear-gradient(135deg, rgba(212,168,83,.05), transparent 60%),
+      var(--bg);
+  }
+  .project-gallery img {
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+    border:1px solid rgba(255,255,255,.05);
+    filter:saturate(.95) contrast(1.03);
+    transition:transform .35s ease, filter .35s ease;
+  }
+  .project-card:hover .project-gallery img {
+    transform:scale(1.03);
+    filter:saturate(1.05) contrast(1.06);
+  }
+  .project-gallery .gallery-feature {
+    grid-column:span 2;
+    grid-row:span 2;
+  }
   /* Placeholder shown until a real screenshot is dropped in assets/images/projects/... */
   .project-media .media-placeholder {
     position:absolute; inset:0;
@@ -528,8 +555,14 @@
 
     <div class="project-card reveal">
       <div class="project-media">
-        <img src="assets/images/projects/dynamix-bi/cover.png" alt="Tableau de bord Power BI — Dynamix Services" loading="lazy"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="project-gallery" aria-label="Aperçu du projet Dynamix Services">
+          <img class="gallery-feature" src="1.png" alt="Dynamix Services - tableau de bord principal" loading="lazy">
+          <img src="2.png" alt="Dynamix Services - vue analytique 2" loading="lazy">
+          <img src="3.png" alt="Dynamix Services - vue analytique 3" loading="lazy">
+          <img src="4.png" alt="Dynamix Services - vue analytique 4" loading="lazy">
+          <img src="5.png" alt="Dynamix Services - vue analytique 5" loading="lazy">
+          <img src="6.png" alt="Dynamix Services - vue analytique 6" loading="lazy">
+        </div>
         <div class="media-placeholder" style="display:none;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
           <span>Capture à venir</span>
