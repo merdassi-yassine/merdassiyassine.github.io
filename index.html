@@ -228,33 +228,6 @@
     transform:scale(1.08);
     filter:grayscale(0) contrast(1.05);
   }
-  .project-gallery {
-    width:100%; height:100%;
-    display:grid;
-    grid-template-columns:repeat(3, minmax(0, 1fr));
-    grid-template-rows:repeat(2, minmax(0, 1fr));
-    gap:.5rem;
-    padding:.75rem;
-    background:
-      linear-gradient(135deg, rgba(212,168,83,.05), transparent 60%),
-      var(--bg);
-  }
-  .project-gallery img {
-    width:100%; height:100%;
-    object-fit:cover;
-    display:block;
-    border:1px solid rgba(255,255,255,.05);
-    filter:saturate(.95) contrast(1.03);
-    transition:transform .35s ease, filter .35s ease;
-  }
-  .project-card:hover .project-gallery img {
-    transform:scale(1.03);
-    filter:saturate(1.05) contrast(1.06);
-  }
-  .project-gallery .gallery-feature {
-    grid-column:span 2;
-    grid-row:span 2;
-  }
   /* Placeholder shown until a real screenshot is dropped in assets/images/projects/... */
   .project-media .media-placeholder {
     position:absolute; inset:0;
@@ -263,6 +236,49 @@
   }
   .media-placeholder svg { width:32px; height:32px; opacity:.5; }
   .media-placeholder span { font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); }
+
+  /* ── CAROUSEL (multi-image project media) ── */
+  .carousel { width:100%; height:100%; position:relative; }
+  .carousel-track {
+    display:flex; height:100%; width:100%;
+    transition:transform .45s cubic-bezier(.65,0,.35,1);
+  }
+  .carousel-track img {
+    width:100%; height:100%; flex:0 0 100%;
+    object-fit:cover; display:block;
+    filter:grayscale(.25) contrast(1.05);
+  }
+  .project-card:hover .carousel-track img { filter:grayscale(0) contrast(1.05); }
+
+  .carousel-arrow {
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:34px; height:34px; border-radius:50%;
+    background:rgba(13,15,20,.65); border:1px solid var(--border);
+    color:var(--text); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; opacity:0; transition:opacity .2s, background .2s, border-color .2s;
+    z-index:2; font-size:.85rem;
+  }
+  .carousel:hover .carousel-arrow { opacity:1; }
+  .carousel-arrow:hover { background:rgba(212,168,83,.15); border-color:var(--gold-dim); color:var(--gold); }
+  .carousel-arrow.prev { left:.9rem; }
+  .carousel-arrow.next { right:.9rem; }
+
+  .carousel-dots {
+    position:absolute; bottom:.9rem; left:50%; transform:translateX(-50%);
+    display:flex; gap:.4rem; z-index:2;
+  }
+  .carousel-dots span {
+    width:6px; height:6px; border-radius:50%; background:rgba(232,234,240,.35);
+    cursor:pointer; transition:background .2s, transform .2s;
+  }
+  .carousel-dots span.active { background:var(--gold); transform:scale(1.2); }
+
+  .carousel-count {
+    position:absolute; top:.8rem; right:.9rem; z-index:2;
+    font-size:.6rem; letter-spacing:.1em;
+    background:rgba(13,15,20,.65); border:1px solid var(--border);
+    padding:.2rem .55rem; color:var(--muted);
+  }
 
   .project-body { padding:2.5rem 2.75rem 2.75rem; position:relative; }
   .project-body::after {
@@ -529,11 +545,14 @@
 
     <div class="project-card reveal">
       <div class="project-media">
-        <img src="assets/images/projects/eventhub-campus/cover.png" alt="EventHub Campus — architecture microservices" loading="lazy"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="media-placeholder" style="display:none;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
-          <span>Capture à venir</span>
+        <div class="carousel" data-carousel>
+          <div class="carousel-track">
+            <img src="7.jpg" alt="EventHub Campus — capture 1" loading="lazy">
+            <img src="8.jpg" alt="EventHub Campus — capture 2" loading="lazy">
+          </div>
+          <button class="carousel-arrow prev" type="button" aria-label="Image précédente">‹</button>
+          <button class="carousel-arrow next" type="button" aria-label="Image suivante">›</button>
+          <div class="carousel-dots"></div>
         </div>
       </div>
       <div class="project-body">
@@ -555,17 +574,18 @@
 
     <div class="project-card reveal">
       <div class="project-media">
-        <div class="project-gallery" aria-label="Aperçu du projet Dynamix Services">
-          <img class="gallery-feature" src="1.png" alt="Dynamix Services - tableau de bord principal" loading="lazy">
-          <img src="2.png" alt="Dynamix Services - vue analytique 2" loading="lazy">
-          <img src="3.png" alt="Dynamix Services - vue analytique 3" loading="lazy">
-          <img src="4.png" alt="Dynamix Services - vue analytique 4" loading="lazy">
-          <img src="5.png" alt="Dynamix Services - vue analytique 5" loading="lazy">
-          <img src="6.png" alt="Dynamix Services - vue analytique 6" loading="lazy">
-        </div>
-        <div class="media-placeholder" style="display:none;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
-          <span>Capture à venir</span>
+        <div class="carousel" data-carousel>
+          <div class="carousel-track">
+            <img src="1.png" alt="Dynamix Services — capture 1" loading="lazy">
+            <img src="2.png" alt="Dynamix Services — capture 2" loading="lazy">
+            <img src="3.png" alt="Dynamix Services — capture 3" loading="lazy">
+            <img src="4.png" alt="Dynamix Services — capture 4" loading="lazy">
+            <img src="5.png" alt="Dynamix Services — capture 5" loading="lazy">
+            <img src="6.png" alt="Dynamix Services — capture 6" loading="lazy">
+          </div>
+          <button class="carousel-arrow prev" type="button" aria-label="Image précédente">‹</button>
+          <button class="carousel-arrow next" type="button" aria-label="Image suivante">›</button>
+          <div class="carousel-dots"></div>
         </div>
       </div>
       <div class="project-body">
@@ -584,14 +604,6 @@
     </div>
 
     <div class="project-card reveal">
-      <div class="project-media">
-        <img src="assets/images/projects/notes-etudiantes/cover.png" alt="Site de Gestion des Notes Étudiantes" loading="lazy"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="media-placeholder" style="display:none;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
-          <span>Capture à venir</span>
-        </div>
-      </div>
       <div class="project-body">
         <div class="project-num">03</div>
         <h3 class="project-title">Site de Gestion des Notes Étudiantes</h3>
@@ -607,14 +619,6 @@
     </div>
 
     <div class="project-card reveal">
-      <div class="project-media">
-        <img src="assets/images/projects/covid-dataviz/cover.png" alt="COVID Data Viz" loading="lazy"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="media-placeholder" style="display:none;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
-          <span>Capture à venir</span>
-        </div>
-      </div>
       <div class="project-body">
         <div class="project-num">04</div>
         <h3 class="project-title">COVID Data Viz</h3>
@@ -631,14 +635,6 @@
     </div>
 
     <div class="project-card reveal">
-      <div class="project-media">
-        <img src="assets/images/projects/hospital-management/cover.png" alt="Système de Gestion Hospitalière" loading="lazy"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="media-placeholder" style="display:none;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
-          <span>Capture à venir</span>
-        </div>
-      </div>
       <div class="project-body">
         <div class="project-num">05</div>
         <h3 class="project-title">Système de Gestion Hospitalière</h3>
@@ -813,6 +809,37 @@
     ring.style.left=rx+'px'; ring.style.top=ry+'px';
     requestAnimationFrame(anim);
   })();
+
+  document.querySelectorAll('[data-carousel]').forEach(car => {
+    const track = car.querySelector('.carousel-track');
+    const slides = Array.from(track.children);
+    const dotsWrap = car.querySelector('.carousel-dots');
+    const prevBtn = car.querySelector('.carousel-arrow.prev');
+    const nextBtn = car.querySelector('.carousel-arrow.next');
+    let idx = 0;
+
+    if (slides.length <= 1) {
+      if (prevBtn) prevBtn.style.display = 'none';
+      if (nextBtn) nextBtn.style.display = 'none';
+      return;
+    }
+
+    slides.forEach((_, i) => {
+      const dot = document.createElement('span');
+      if (i === 0) dot.classList.add('active');
+      dot.addEventListener('click', (e) => { e.stopPropagation(); go(i); });
+      dotsWrap.appendChild(dot);
+    });
+    const dots = Array.from(dotsWrap.children);
+
+    function go(i) {
+      idx = (i + slides.length) % slides.length;
+      track.style.transform = `translateX(-${idx * 100}%)`;
+      dots.forEach((d, di) => d.classList.toggle('active', di === idx));
+    }
+    prevBtn.addEventListener('click', (e) => { e.stopPropagation(); go(idx - 1); });
+    nextBtn.addEventListener('click', (e) => { e.stopPropagation(); go(idx + 1); });
+  });
 
   const els = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver(entries=>{
